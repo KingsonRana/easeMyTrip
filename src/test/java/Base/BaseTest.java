@@ -23,6 +23,7 @@ public class BaseTest {
     private static String phoneNumber;
     private static int cheapestPrice;
     private static String duration;
+    private static String salutation;
     @BeforeSuite
     public void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -116,6 +117,13 @@ public class BaseTest {
 
     public static void setDuration(String duration) {
         BaseTest.duration = duration;
+    }
+    public static String getSalutation() {
+        return salutation;
+    }
+
+    public static void setSalutation(String salutation) {
+        BaseTest.salutation = salutation;
     }
 
 

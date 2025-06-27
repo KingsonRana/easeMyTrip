@@ -148,6 +148,33 @@ public class TravellerDetailPage {
             return false;
         }
     }
+    public boolean verifyUserEmailAddress(String email) {
+        try {
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+email+"')]")));
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public boolean verifyUserContact(String contact) {
+        try {
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+contact+"')]")));
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public boolean verifyUserFullName(String fullName) {
+        try {
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(@class,'fnt-g') and contains(text(),'"+fullName+"')]")));
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();

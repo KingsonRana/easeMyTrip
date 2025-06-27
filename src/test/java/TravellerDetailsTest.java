@@ -51,6 +51,7 @@ public class TravellerDetailsTest extends BaseTest {
 
     @Test(description = "Verify alert message not displayed when title is not empty", priority = 5)
     public void verifyNoErrorDisplayedWhenTitleEntered() {
+        setSalutation("Mr");
         page.selectTitle("Mr");
         boolean isErrorVisible = page.isErrorVisible();
         Assert.assertFalse(isErrorVisible, "Error message should not be shown when a valid title is entered");
@@ -91,11 +92,24 @@ public class TravellerDetailsTest extends BaseTest {
         Assert.assertFalse(isErrorVisible, "Error message should not be shown when a valid last name is entered");
     }
 
-    @Test(description = "skip seat selection", dependsOnMethods = "verifyNoErrorShownWhenLastNameEntered")
+    @Test(description = "skip seat selection", dependsOnMethods = "verifyNoErrorShownWhenLastNameEntered",priority=10)
     public void skipSeatSelection() {
         page.skipSeatSelection();
         page.skipToPayment();
         Assert.assertTrue(page.verifyAndPayButtonIsVisible(),"Button should be visible");
+    }
+
+    @Test(description ="Verify Travellers detials", priority = 11,dependsOnMethods="skipSeatSelection")
+    public void verifyTravellerDetail() throws InterruptedException {
+      boolean isEmailVisible = page.verifyUserEmailAddress(getEmailId());
+      Assert.assertTrue(isEmailVisible,"Email id is not visible");
+
+      boolean isContactVisible = page.verifyUserContact(getPhoneNumber());
+      Assert.assertTrue(isContactVisible,"Contact is not visible");
+
+      String fullName = getSalutation() +" "+getFirstName()+" "+getLastName();
+      boolean isFullNameVisible = page.verifyUserFullName(fullName);
+      Assert.assertTrue(isFullNameVisible,"Full name not visible");
     }
 
 }
