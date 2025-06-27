@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +29,7 @@ public class BaseTest {
     private static String salutation;
     @BeforeSuite
     public void setUp() {
+        System.out.println("Doing setup in base");
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -58,10 +62,16 @@ public class BaseTest {
         if (driver != null) {
             driver.quit();
         }
-        System.out.println("FirstName " + firstName);
-        System.out.println("Last name " + lastName);
-        System.out.println("Email " + emailId);
-        System.out.println("PhoneNUmber "+ phoneNumber);
+        try {
+            File reportFile = new File(System.getProperty("user.dir") + "/reports/ExtentReport.html");
+            if (reportFile.exists()) {
+                Desktop.getDesktop().browse(reportFile.toURI());
+            } else {
+                System.err.println("Report file not found to open.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public WebDriver getDriver() {
