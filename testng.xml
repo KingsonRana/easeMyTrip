@@ -7,7 +7,8 @@
     <test verbose="2" preserve-order="true" name="C:/Users/kings/IdeaProjects/EaseMyTrip">
         <classes>
             <class name="LoginAndSearchFlightTest"/>
-            <class name="TravellerDetailTest"/>
+            <class name="ReviewTest"/>
+            <class name="TravellerDetailsTest"/>
         </classes>
     </test>
 </suite>

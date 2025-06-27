@@ -9,9 +9,9 @@ import java.util.Locale;
 public class DataProvider {
     private final Faker faker = new Faker(new Locale("en-IN"));
     @org.testng.annotations.DataProvider(name = "userCredentials")
-    public Object[][] getUserCredentials(){
+    public Object[][] getUserAccountCredentials(){
        return new Object[][]{
-               {"91","8709560736"}
+               {"91","8709560736","Kingsonr5@gmail.com"}
        };
     }
     @org.testng.annotations.DataProvider(name="sourceAndDestination")
@@ -41,11 +41,8 @@ public class DataProvider {
     public Object[][] getTravellerDetails() {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
-        String email = (firstName + lastName + "@example.com").toLowerCase();
-        String phoneNumber = faker.phoneNumber().subscriberNumber(10);
-        String gender = faker.options().option("Male", "Female");
         return new Object[][]{
-                {firstName, lastName, email, phoneNumber, gender}
+                {firstName, lastName}
         };
     }
 }

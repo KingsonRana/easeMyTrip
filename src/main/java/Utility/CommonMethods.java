@@ -17,7 +17,7 @@ public class CommonMethods {
     }
     public static int calculatePercentage(int part, int total) {
         if (total == 0) {
-            throw new IllegalArgumentException("Total cannot be zero.");
+           return 0;
         }
         return (part * 100) / total;
     }

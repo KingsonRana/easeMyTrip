@@ -31,7 +31,7 @@ public class BaseTest {
 
         driver.get("https://www.easemytrip.com");
         CommonMethods.waitUntilPageIsFullyLoaded(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
     @AfterSuite
     public void tearDown() {
