@@ -9,8 +9,7 @@ import org.testng.annotations.Test;
 public class LoginAndSearchFlightTest extends BaseTest
 {
     DashboardPage page;
-    static int cheapestPrice;
-    static String duration;
+
     @BeforeClass
     public void setUpPage() {
         page = new DashboardPage( getDriver(),getWait());
@@ -54,9 +53,10 @@ public class LoginAndSearchFlightTest extends BaseTest
     }
     @Test(description = "Book the cheapest flight",dependsOnMethods = {"sortByPriceHighest"}, alwaysRun = true)
     public void bookCheapestFlight(){
-        cheapestPrice= page.getCheapestExactMatchFlight();
-        duration = page.getFlightDuration();
+        setCheapestPrice(page.getCheapestExactMatchFlight());
+        setDuration(page.getFlightDuration());
         page.clickBookNow();
+
     }
 
 

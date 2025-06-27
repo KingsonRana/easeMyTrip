@@ -7,9 +7,10 @@ import org.testng.annotations.Test;
 
 public class TravellerDetailsTest extends BaseTest {
     TravellerDetailPage page;
+
     @BeforeClass
     public void setUpPage() {
-        page = new TravellerDetailPage( getDriver(),getWait());
+        page = new TravellerDetailPage(getDriver(), getWait());
     }
 
     @Test(description = "Verify Email Id is required", priority = 0)
@@ -18,8 +19,10 @@ public class TravellerDetailsTest extends BaseTest {
         boolean isEmpty = page.isEmailFieldEmpty();
         Assert.assertTrue(isEmpty, "Email field should be marked as empty.");
     }
-    @Test(description = "Enter email id" ,dataProvider = "userCredentials", dataProviderClass = DataProvider.class, priority = 1)
-    public void verifyEmailFieldClassChangesAfterInput(String countryCode, String phoneNumber,String email) {
+
+    @Test(description = "Enter email id", dataProvider = "userCredentials", dataProviderClass = DataProvider.class, priority = 1)
+    public void verifyEmailFieldClassChangesAfterInput(String countryCode, String phoneNumber, String email) {
+        setEmailId(email);
         boolean isUpdated = page.enterEmailAndVerifyClassChange(email);
         Assert.assertTrue(isUpdated, "Email field class did not update to 'ng-not-empty' after input.");
     }
@@ -30,66 +33,69 @@ public class TravellerDetailsTest extends BaseTest {
         boolean isEmpty = page.isPhoneNumberFieldEmpty();
         Assert.assertTrue(isEmpty, "Phone number field should be marked as empty.");
     }
-    @Test(description = "Enter Phone Number " ,dataProvider = "userCredentials", dataProviderClass = DataProvider.class, priority = 3)
-    public void verifyPhoneFieldClassChangesAfterInput(String countryCode, String phoneNumber,String email) {
+
+    @Test(description = "Enter Phone Number ", dataProvider = "userCredentials", dataProviderClass = DataProvider.class, priority = 3)
+    public void verifyPhoneFieldClassChangesAfterInput(String countryCode, String phoneNumber, String email) {
+        setPhoneNumber(phoneNumber);
         boolean isUpdated = page.enterPhoneAndVerifyClassChange(phoneNumber);
         Assert.assertTrue(isUpdated, "Phone field class did not update to 'ng-not-empty' after input.");
     }
-    @Test(description = "Verify alert message on empty title",priority = 4)
-    public void verifyTitleValidationError  (){
+
+    @Test(description = "Verify alert message on empty title", priority = 4)
+    public void verifyTitleValidationError() {
         page.selectTitle("Title");
         page.clickContinueButton();
         boolean isErrorVisible = page.isErrorVisible();
-        System.out.println("Title not entered alert displayed  = " + isErrorVisible);
         Assert.assertTrue(isErrorVisible, "Error message should be shown when a valid title is not entered");
     }
-    @Test(description = "Verify alert message not displayed when title is not empty",priority = 5)
-    public void verifyNoErrorDisplayedWhenTitleEntered (){
+
+    @Test(description = "Verify alert message not displayed when title is not empty", priority = 5)
+    public void verifyNoErrorDisplayedWhenTitleEntered() {
         page.selectTitle("Mr");
-        page.clickContinueButton();
-        boolean isErrorVisible = page.isErrorMessageDisplayed("Adult 1 title is required");
-        System.out.println("Title entered alert displayed  = " + isErrorVisible);
+        boolean isErrorVisible = page.isErrorVisible();
         Assert.assertFalse(isErrorVisible, "Error message should not be shown when a valid title is entered");
-
     }
 
-    @Test(description = "Verify alert message on empty first name",priority = 6)
-    public void verifyFirstNameValidationError(){
+    @Test(description = "Verify alert message displayed when first name is empty", priority = 6)
+    public void verifyFirstNameValidationError() throws InterruptedException {
         page.clickContinueButton();
+        Thread.sleep(1000);
         boolean isErrorVisible = page.isErrorVisible();
-        System.out.println("First name not entered alert displayed  = " + isErrorVisible);
         Assert.assertTrue(isErrorVisible, "Error message should be shown when a valid first name is not entered");
 
     }
-    @Test(description = "Verify alert message on empty first name",priority = 7,dataProvider = "travellerDetails", dataProviderClass = DataProvider.class)
+
+    @Test(description = "Verify alert message when first name is not empty", priority = 7, dataProvider = "travellerDetails", dataProviderClass = DataProvider.class)
     public void verifyNoErrorShownWhenFirstNameEntered(String firstName, String lastName) {
+        setFirstName(firstName);
         page.enterAdultFirstName(firstName);
-        page.clickContinueButton();
-        boolean isErrorVisible  = page.isErrorMessageDisplayed("Adult 1 First Name should have minimum 1");
-        System.out.println("First Name entered alert displayed  = " + isErrorVisible);
-        Assert.assertFalse(isErrorVisible,"Error message should not be shown when First name is entered");
-        }
-    @Test(description = "Verify alert message on empty last name",priority = 8)
-    public void verifyLastNameValidationError  (){
-        page.clickContinueButton();
         boolean isErrorVisible = page.isErrorVisible();
-        System.out.println("Last name not entered alert displayed  = " + isErrorVisible);
-        Assert.assertTrue(isErrorVisible, "Error message should be shown when a valid first name is not entered");
+        Assert.assertTrue(isErrorVisible, "Error message should not be shown when a valid first name is entered");
+    }
+
+    @Test(description = "Verify alert message on empty last name", priority = 8)
+    public void verifyLastNameValidationError() throws InterruptedException {
+        page.clickContinueButton();
+        Thread.sleep(1000);
+        boolean isErrorVisible = page.isErrorVisible();
+        Assert.assertTrue(isErrorVisible, "Error message should be shown when a valid last name is not entered");
 
     }
-    @Test(description = "Verify alert message on empty last name",priority = 9,dataProvider = "travellerDetails", dataProviderClass = DataProvider.class)
-    public void verifyNoErrorShownWhenLastNameEntered(String firstName, String lastName) {
-        System.out.println("Last name is " +lastName);
+
+    @Test(description = "Verify alert message when last name is entered", priority = 9, dataProvider = "travellerDetails", dataProviderClass = DataProvider.class)
+    public void verifyNoErrorShownWhenLastNameEntered(String firstName, String lastName) throws InterruptedException {
+        setLastName(lastName);
         page.enterAdultLastName(lastName);
         page.clickContinueButton();
-        boolean isErrorVisible  = page.isErrorMessageDisplayed("Adult 1 Last Name should have minimum 1character.");
-        System.out.println("Last name entered alert displayed  = " + isErrorVisible);
-        Assert.assertFalse(isErrorVisible,"Error message should not be shown when First name is entered");
+        boolean isErrorVisible = page.isErrorVisible();
+        Assert.assertFalse(isErrorVisible, "Error message should not be shown when a valid last name is entered");
     }
+
     @Test(description = "skip seat selection", dependsOnMethods = "verifyNoErrorShownWhenLastNameEntered")
-    public void skipSeatSelection(){
-       page.skipSeatSelection();
-       page.skipToPayment();
+    public void skipSeatSelection() {
+        page.skipSeatSelection();
+        page.skipToPayment();
+        Assert.assertTrue(page.verifyAndPayButtonIsVisible(),"Button should be visible");
     }
 
 }

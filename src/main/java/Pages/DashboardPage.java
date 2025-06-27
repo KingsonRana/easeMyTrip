@@ -249,4 +249,5 @@ public class DashboardPage {
         return Integer.parseInt(priceText.replaceAll("[^0-9]", ""));
     }
 
+
 }

@@ -50,7 +50,7 @@ public class TravellerDetailPage {
         try {
             emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtEmailId")));
             emailInput.clear();
-            replicateHumaneInputMovement(emailInput,email);
+            emailInput.sendKeys(email);
             String classAttr = emailInput.getAttribute("class");
             return classAttr != null && classAttr.contains("ng-not-empty");
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class TravellerDetailPage {
         try {
             phoneInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtCPhone")));
             phoneInput.clear();
-            replicateHumaneInputMovement(phoneInput,phoneNumber);
+            phoneInput.sendKeys(phoneNumber);
             String classAttr = phoneInput.getAttribute("class");
             return classAttr != null && classAttr.contains("ng-not-empty");
         } catch (Exception e) {
@@ -105,15 +105,17 @@ public class TravellerDetailPage {
 
     public void enterAdultFirstName(String firstName) {
          firstNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtFNAdult0")));
-        replicateHumaneInputMovement(firstNameField, firstName);
+         firstNameField.clear();
+         firstNameField.sendKeys(firstName);
     }
     public void enterAdultLastName(String lastName) {
         lastNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtLNAdult0")));
-        replicateHumaneInputMovement(lastNameField, lastName);
+        lastNameField.clear();
+        lastNameField.sendKeys(lastName);
     }
     public boolean isErrorVisible() {
         try {
-            errorDiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("divErrorAdult0")));
+            errorDiv = driver.findElement(By.id("divErrorAdult0"));
             String style = errorDiv.getAttribute("style");
             return style != null && !style.contains("display: none");
         } catch (Exception e) {
@@ -137,11 +139,18 @@ public class TravellerDetailPage {
             System.out.println("Skip to payment button not found or is not clickable");
         }
     }
+    public boolean verifyAndPayButtonIsVisible() {
+        try {
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'Verify & Pay')]")));
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
     }
-    private void replicateHumaneInputMovement(WebElement element, String text){
-        actions.moveToElement(element).pause(Duration.ofMillis(200)).click().pause(Duration.ofMillis(100)).sendKeys(text).perform();
-    }
+
 }

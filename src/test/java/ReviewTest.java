@@ -15,8 +15,8 @@ public class ReviewTest extends BaseTest {
     public void verifyPrice() {
         int grandTotal = page.getGrandTotal();
         Assert.assertTrue(grandTotal > 0, "Grand total is 0 — possible issue retrieving fare.");
-        Assert.assertTrue(LoginAndSearchFlightTest.cheapestPrice > 0, "Cheapest price is 0 — possibly not set correctly.");
-        Assert.assertEquals(grandTotal, LoginAndSearchFlightTest.cheapestPrice, "Grand Total is not same as the cheapest price.");
+        Assert.assertTrue( getCheapestPrice() > 0, "Cheapest price is 0 — possibly not set correctly.");
+        Assert.assertEquals(grandTotal, getCheapestPrice(), "Grand Total is not same as the cheapest price.");
     }
 
     @Test(description = "Verify Source and destination",dataProvider = "sourceAndDestination" , dataProviderClass = DataProvider.class,priority = 1)
@@ -27,7 +27,7 @@ public class ReviewTest extends BaseTest {
     }
     @Test(description = "Verify flight duration",priority = 2)
     public void verifyDurationOfFlight(){
-        boolean flightDuration = page.isFlightDurationPresent(LoginAndSearchFlightTest.duration);
+        boolean flightDuration = page.isFlightDurationPresent(getDuration());
         Assert.assertTrue(flightDuration);
     }
    @Test(description = "Verify user can not proceed without selecting an insurance option",priority = 3)
@@ -42,8 +42,8 @@ public class ReviewTest extends BaseTest {
       page.clickContinueButton();
        int grandTotal = page.getGrandTotal();
        Assert.assertTrue(grandTotal > 0, "Grand total is 0 — possible issue retrieving fare.");
-       Assert.assertTrue(LoginAndSearchFlightTest.cheapestPrice > 0, "Cheapest price is 0 — possibly not set correctly.");
-       Assert.assertEquals(grandTotal, LoginAndSearchFlightTest.cheapestPrice, "Grand Total is not same as the cheapest price.");
+       Assert.assertTrue(getCheapestPrice() > 0, "Cheapest price is 0 — possibly not set correctly.");
+       Assert.assertEquals(grandTotal, getCheapestPrice(), "Grand Total is not same as the cheapest price.");
    }
 
 }
