@@ -1,4 +1,6 @@
-
+# Video Link 
+https://www.loom.com/share/2f16db38643e4ed4a3dd19846b0e9629?sid=e48a51c5-94ac-4c7d-9f13-68387e9e91bb
+\
 # ✈️ EaseMyTrip Automation Framework
 
 This is a **TestNG-based Selenium automation framework** designed to perform end-to-end testing of core workflows on [EaseMyTrip](https://www.easemytrip.com), including:
