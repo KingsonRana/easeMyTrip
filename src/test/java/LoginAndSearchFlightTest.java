@@ -18,24 +18,29 @@ public class LoginAndSearchFlightTest extends BaseTest
     public void login(String countryCode, String phoneNumber,String email){
         System.out.println("Country code is " + countryCode + " Phone number is " + phoneNumber);
     }
-    @Test(description = "Search Flight", dependsOnMethods = "login", dataProvider = "sourceAndDestination" , dataProviderClass = DataProvider.class)
-    public void search(String source, String destination, String date) {
+    @Test(description = "Search for Flight and verify the page url ", dependsOnMethods = "login", dataProvider = "sourceAndDestination" , dataProviderClass = DataProvider.class)
+    public void searchFlightAnVerifyTheURl(String source, String destination, String date) {
+        setSource(source);
+        setDestination(destination);
+        setDepartureDate(date);
         page.enterSource(source);
         page.enterDestination(destination);
         page.enterDepartureDate(date);
         page.searchFlight();
-
+        String pageUrl = page.getPageUrl();
+        Assert.assertTrue(pageUrl.contains("https://flight.easemytrip.com/FlightList/Index"),"Url of flight list page is different");
+    }
+    @Test(description = "Verify the matching result", dependsOnMethods = "searchFlightAnVerifyTheURl")
+    public void verifyMatchingResultPercentage(){
         int resultCount = page.getResultCount();
         Assert.assertTrue(resultCount > 0, "No flight results found.");
-
-        int matchingResultCount = page.getMatchingFlightCount(source, destination);
+        int matchingResultCount = page.getMatchingFlightCount(getSource(), getDestination());
         Assert.assertTrue(matchingResultCount > 0, "No matching flights for source and destination.");
-
         int percentage = CommonMethods.calculatePercentage(matchingResultCount, resultCount);
         Assert.assertTrue(percentage > 90, "Matching percentage should be greater than 90");
     }
 
-    @Test(description = "Verify listed cheapest flight is not more than the 'CHEAPEST' price shown", dependsOnMethods = "search",priority = 0)
+    @Test(description = "Verify listed cheapest flight is not more than the 'CHEAPEST' price shown", dependsOnMethods = "searchFlightAnVerifyTheURl",priority = 0)
     public void verifyCheapestFlightValid() {
         int expectedCheapestFlight = page.getExpectedCheapestPrice();
         int actualCheapestPrice = page.getActualCheapestPrice();
@@ -46,17 +51,18 @@ public class LoginAndSearchFlightTest extends BaseTest
                         actualCheapestPrice, expectedCheapestFlight));
     }
 
-    @Test(description = "Verify sorting by Highest price is working",dependsOnMethods = "search",priority = 1)
+    @Test(description = "Verify sorting by Highest price is working",dependsOnMethods = "searchFlightAnVerifyTheURl",priority = 1)
     public void sortByPriceHighest() throws InterruptedException {
         boolean isSorted = page.sortByHighest();
         Assert.assertTrue(isSorted, "Price is not sorted from highest to lowest");
     }
-    @Test(description = "Book the cheapest flight",dependsOnMethods = {"sortByPriceHighest"}, alwaysRun = true)
-    public void bookCheapestFlight(){
+    @Test(description = "Book the cheapest flight and verify the PageUrl",dependsOnMethods = {"sortByPriceHighest"}, alwaysRun = true)
+    public void bookCheapestFlightAndVerifyPageUrl(){
         setCheapestPrice(page.getCheapestExactMatchFlight());
         setDuration(page.getFlightDuration());
         page.clickBookNow();
-
+        String pageUrl = page.getPageUrl();
+        Assert.assertTrue(pageUrl.contains("https://flight.easemytrip.com/Review/CheckOut"),"URL of review page is different");
     }
 
 

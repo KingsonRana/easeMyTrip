@@ -1,5 +1,6 @@
 package Pages;
 
+import Utility.CommonMethods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -88,6 +89,7 @@ public class ReviewPage {
 
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
+        CommonMethods.waitForLoaderToDisappear(wait);
     }
 
 }

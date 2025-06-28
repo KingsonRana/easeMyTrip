@@ -1,5 +1,6 @@
 package Pages;
 
+import Utility.CommonMethods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -134,15 +135,14 @@ public class TravellerDetailPage {
         try{
             skipToPayment = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("skipPop")));
             replicateHumaneMouseMovement(skipToPayment);
-            Thread.sleep(10000);
+            CommonMethods.waitForLoaderToDisappear(wait);
         } catch (Exception e) {
             System.out.println("Skip to payment button not found or is not clickable");
         }
     }
     public boolean verifyAndPayButtonIsVisible() {
         try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'Verify & Pay')]")));
+            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'Verify & Pay')]")));
             return element.isDisplayed();
         } catch (Exception e) {
             return false;
@@ -150,8 +150,7 @@ public class TravellerDetailPage {
     }
     public boolean verifyUserEmailAddress(String email) {
         try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+email+"')]")));
+            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+email+"')]")));
             return element.isDisplayed();
         } catch (Exception e) {
             return false;
@@ -159,8 +158,7 @@ public class TravellerDetailPage {
     }
     public boolean verifyUserContact(String contact) {
         try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+contact+"')]")));
+            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(),'"+contact+"')]")));
             return element.isDisplayed();
         } catch (Exception e) {
             return false;
@@ -168,8 +166,7 @@ public class TravellerDetailPage {
     }
     public boolean verifyUserFullName(String fullName) {
         try {
-            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(@class,'fnt-g') and contains(text(),'"+fullName+"')]")));
+            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(@class,'fnt-g') and contains(text(),'"+fullName+"')]")));
             return element.isDisplayed();
         } catch (Exception e) {
             return false;
@@ -178,6 +175,9 @@ public class TravellerDetailPage {
 
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
+        CommonMethods.waitUntilPageIsFullyLoaded(driver);
     }
+
+
 
 }

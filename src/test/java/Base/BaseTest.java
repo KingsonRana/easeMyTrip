@@ -1,5 +1,6 @@
 package Base;
 
+import Pages.DashboardPage;
 import Utility.CommonMethods;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.JavascriptExecutor;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -27,34 +29,32 @@ public class BaseTest {
     private static int cheapestPrice;
     private static String duration;
     private static String salutation;
+    private static String source;
+    private static String destination;
+    private static String departureDate;
+    private static ChromeOptions options = new ChromeOptions();
     @BeforeSuite
     public void setUp() {
         System.out.println("Doing setup in base");
         WebDriverManager.chromedriver().setup();
+        addBrowserOptions();
+        driver = new ChromeDriver(options);
+        ((JavascriptExecutor) driver).executeScript(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+        );
+        driver.get("https://www.easemytrip.com");
+        CommonMethods.waitUntilPageIsFullyLoaded(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    }
 
-        ChromeOptions options = new ChromeOptions();
-
-        // Disable notifications
+    public void addBrowserOptions(){
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2); // 2 = Block
         options.setExperimentalOption("prefs", prefs);
-
-        // Anti-automation & appearance settings
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         options.setExperimentalOption("useAutomationExtension", false);
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--start-maximized");
-
-        driver = new ChromeDriver(options);
-
-        // Hide webdriver flag
-        ((JavascriptExecutor) driver).executeScript(
-                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-        );
-
-        driver.get("https://www.easemytrip.com");
-        CommonMethods.waitUntilPageIsFullyLoaded(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     @AfterSuite
@@ -89,9 +89,16 @@ public class BaseTest {
         BaseTest.firstName = firstName;
     }
 
+    public static void setSource(String source){BaseTest.source = source;}
+    public static String getSource(){return source;}
+
+    public static void setDestination(String destination){BaseTest.destination=destination;}
+    public static String getDestination(){return destination;}
     public static String getLastName() {
         return lastName;
     }
+    public static void setDepartureDate(String departureDate){BaseTest.departureDate = departureDate;}
+    public static String getDepartureDate(){return  departureDate;}
 
     public static void setLastName(String lastName) {
         BaseTest.lastName = lastName;

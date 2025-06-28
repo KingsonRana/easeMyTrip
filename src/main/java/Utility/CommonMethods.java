@@ -1,7 +1,9 @@
 package Utility;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -28,5 +30,12 @@ public class CommonMethods {
             }
         }
         return true;
+    }
+    public static void waitForLoaderToDisappear(WebDriverWait wait) {
+        wait.until(driver -> {
+            WebElement loader = driver.findElement(By.xpath("//div[@id='Loader']"));
+            String displayStyle = loader.getAttribute("style");
+            return displayStyle != null && displayStyle.contains("display: none");
+        });
     }
 }

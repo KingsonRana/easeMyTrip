@@ -98,6 +98,7 @@ public class DashboardPage {
         try {
             submit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("srchBtnSe")));
             replicateHumaneMouseMovement(submit);
+            CommonMethods.waitForLoaderToDisappear(wait);
         } catch (Exception e) {
             System.out.println("Search button not found or not clickable: " + e.getMessage());
         }
@@ -193,6 +194,14 @@ public class DashboardPage {
             System.out.println("Failed to click 'Book Now' button: " + e.getMessage());
         }
     }
+    public String getPageUrl(){
+        try{
+            return driver.getCurrentUrl();
+        }catch (Exception e){
+            System.out.println("Error getting the page url");
+            return " ";
+        }
+    }
 
     public String getFlightDuration() {
         try {
@@ -232,6 +241,7 @@ public class DashboardPage {
 
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
+        CommonMethods.waitUntilPageIsFullyLoaded(driver);
     }
 
     private String buildFlightXPathWithPrice() {

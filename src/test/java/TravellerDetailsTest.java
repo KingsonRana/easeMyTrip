@@ -1,6 +1,7 @@
 import Base.BaseTest;
 import DataProviders.DataProvider;
 import Pages.TravellerDetailPage;
+import Utility.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
