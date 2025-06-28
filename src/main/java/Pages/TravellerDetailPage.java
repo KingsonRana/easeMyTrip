@@ -2,6 +2,7 @@ package Pages;
 
 import Utility.CommonMethods;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -24,6 +25,7 @@ public class TravellerDetailPage {
     WebElement titleDropDown;
     WebElement skipSeatSelection;
     WebElement skipToPayment;
+    public By travllerXpath = By.xpath("//div[contains(@class,'po-re') and contains(.,'Traveller Details')]");
     public TravellerDetailPage(WebDriver driver, WebDriverWait wait){
         this.driver = driver;
         this.wait = wait;
@@ -176,6 +178,11 @@ public class TravellerDetailPage {
     private void replicateHumaneMouseMovement(WebElement element){
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
         CommonMethods.waitUntilPageIsFullyLoaded(driver);
+    }
+
+    public void moveToElement(By elementXpath){
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(elementXpath));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
 

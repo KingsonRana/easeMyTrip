@@ -9,6 +9,7 @@
             <class name="LoginAndSearchFlightTest"/>
             <class name="ReviewTest"/>
             <class name="TravellerDetailsTest"/>
+            <class name="PaymentMethodTest"/>
         </classes>
     </test>
 </suite>

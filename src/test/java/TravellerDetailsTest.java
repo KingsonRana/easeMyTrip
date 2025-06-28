@@ -1,7 +1,6 @@
 import Base.BaseTest;
 import DataProviders.DataProvider;
 import Pages.TravellerDetailPage;
-import Utility.CommonMethods;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -93,24 +92,25 @@ public class TravellerDetailsTest extends BaseTest {
         Assert.assertFalse(isErrorVisible, "Error message should not be shown when a valid last name is entered");
     }
 
-    @Test(description = "skip seat selection", dependsOnMethods = "verifyNoErrorShownWhenLastNameEntered",priority=10)
+    @Test(description = "skip seat selection", dependsOnMethods = "verifyNoErrorShownWhenLastNameEntered", priority = 10)
     public void skipSeatSelection() {
         page.skipSeatSelection();
         page.skipToPayment();
-        Assert.assertTrue(page.verifyAndPayButtonIsVisible(),"Button should be visible");
+        Assert.assertTrue(page.verifyAndPayButtonIsVisible(), "Button should be visible");
     }
 
-    @Test(description ="Verify Travellers detials", priority = 11,dependsOnMethods="skipSeatSelection")
-    public void verifyTravellerDetail() throws InterruptedException {
-      boolean isEmailVisible = page.verifyUserEmailAddress(getEmailId());
-      Assert.assertTrue(isEmailVisible,"Email id is not visible");
+    @Test(description = "Verify Travellers detials", priority = 11, dependsOnMethods = "skipSeatSelection")
+    public void verifyTravellerDetail() {
+        page.moveToElement(page.travllerXpath);
+        boolean isEmailVisible = page.verifyUserEmailAddress(getEmailId());
+        Assert.assertTrue(isEmailVisible, "Email id is not visible");
 
-      boolean isContactVisible = page.verifyUserContact(getPhoneNumber());
-      Assert.assertTrue(isContactVisible,"Contact is not visible");
+        boolean isContactVisible = page.verifyUserContact(getPhoneNumber());
+        Assert.assertTrue(isContactVisible, "Contact is not visible");
 
-      String fullName = getSalutation() +" "+getFirstName()+" "+getLastName();
-      boolean isFullNameVisible = page.verifyUserFullName(fullName);
-      Assert.assertTrue(isFullNameVisible,"Full name not visible");
+        String fullName = getSalutation() + " " + getFirstName() + " " + getLastName();
+        boolean isFullNameVisible = page.verifyUserFullName(fullName);
+        Assert.assertTrue(isFullNameVisible, "Full name not visible");
     }
 
 }
