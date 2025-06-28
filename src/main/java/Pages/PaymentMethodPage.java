@@ -24,6 +24,8 @@ public class PaymentMethodPage {
     public By giftCardXpath = By.className("giftcard-dtl");
     public By payLaterXpath = By.className("epay_col");
     public By googlePayXpath = By.className("googlepay-dtl");
+    public By logOutPanelXpath = By.id("spnLogoutPnl");
+    public By logOutButtonXpath = By.className("LogOut");
     public PaymentMethodPage(WebDriver driver, WebDriverWait wait){
         this.driver = driver;
         this.wait = wait;
@@ -40,7 +42,10 @@ public class PaymentMethodPage {
         }catch (Exception e){
             return false;
         }
-
+    }
+    public void clickElement(By elementXpath){
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(elementXpath));
+        element.click();
     }
 
 }

@@ -11,7 +11,7 @@ public class DataProvider {
     @org.testng.annotations.DataProvider(name = "userCredentials")
     public Object[][] getUserAccountCredentials(){
        return new Object[][]{
-               {"91","9939433736","abc@gmail.com"}
+               {"91","9864747463","dummy@gmail.com"}
        };
     }
     @org.testng.annotations.DataProvider(name="sourceAndDestination")
@@ -22,21 +22,6 @@ public class DataProvider {
                 {"Delhi", "Patna", formattedDate}
         };
     }
-    @org.testng.annotations.DataProvider(name = "startAndEndDate")
-    public Object[][] getStartAndEndDAte() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM dd yyyy", Locale.ENGLISH);
-
-        String formattedStartDate = currentDate.format(formatter);
-        LocalDate endDate = currentDate.plusDays(2);
-        String formattedEndDate = endDate.format(formatter);
-
-        return new Object[][]{
-                {formattedStartDate, formattedEndDate}
-        };
-    }
-
-
     @org.testng.annotations.DataProvider(name="travellerDetails")
     public Object[][] getTravellerDetails() {
         String firstName = faker.name().firstName();
