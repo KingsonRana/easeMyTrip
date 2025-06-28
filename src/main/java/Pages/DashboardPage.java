@@ -29,26 +29,47 @@ public class DashboardPage {
     private String selectedSource;
     private String selectedDestination;
     private String cheapestFlightPrice;
-
+    WebElement signInPanel;
+    WebElement customerLogIn;
+    WebElement profileBox;
+    WebElement profileBoxMayBeLaterButton;
 
     public DashboardPage(WebDriver driver, WebDriverWait wait){
         this.driver = driver;
         this.wait = wait;
         actions = new Actions(this.driver);
     }
+    public void clickSignInPanel(){
+        signInPanel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("divSignInPnl")));
+        replicateHumaneMouseMovement(signInPanel);
+    }
+    public void clickCustomerLogin(){
+        customerLogIn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("shwlogn")));
+        replicateHumaneMouseMovement(customerLogIn);
+    }
 
     public void enterPhoneNumber(String phoneNumber) {
         try {
-            phoneNumberTextBox = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//input[@placeholder='Enter Mobile Number']")));
+            phoneNumberTextBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("txtEmail")));
             phoneNumberTextBox.sendKeys(phoneNumber);
-
-            continueButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[@data-cy='continueBtn']")));
+            continueButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("shwotp")));
             continueButton.click();
         } catch (Exception e) {
             System.out.println("Failed to enter phone number or click continue: " + e.getMessage());
         }
+    }
+
+    public boolean isProfileBoxVisible(){
+        try {
+            profileBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ProfileBox")));
+            return profileBox.isDisplayed();
+        }catch (Exception e){
+            return false;
+        }
+    }
+    public void declineGoingToProfile(){
+        profileBoxMayBeLaterButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'maybe-later')]")));
+        replicateHumaneMouseMovement(profileBoxMayBeLaterButton);
     }
 
     public void enterSource(String source) {
@@ -145,7 +166,7 @@ public class DashboardPage {
 
     public int getActualCheapestPrice() {
         try {
-            String xpath = "//div[contains(@class,'fareflex')]//span[contains(@id,'spnPrice')]";
+            String xpath = "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
             int cheapest = Integer.MAX_VALUE;
 
@@ -165,7 +186,7 @@ public class DashboardPage {
 
     public int getCheapestExactMatchFlight() {
         try {
-            String xpath = buildFlightXPath() + "//div[contains(@class,'fareflex')]//span[contains(@id,'spnPrice')]";
+            String xpath = buildFlightXPath() + "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
             int cheapest = Integer.MAX_VALUE;
 
@@ -223,7 +244,7 @@ public class DashboardPage {
             sortByHighestButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("QUC_HIGHESTPRICE")));
             replicateHumaneMouseMovement(sortByHighestButton);
 
-            String xpath = "//div[contains(@class,'slash_price')]//span[contains(@class,'cut-pric-v3')]";
+            String xpath = "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
 
             List<Integer> priceListInteger = new ArrayList<>();

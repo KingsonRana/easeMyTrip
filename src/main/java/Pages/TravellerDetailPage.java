@@ -118,9 +118,8 @@ public class TravellerDetailPage {
     }
     public boolean isErrorVisible() {
         try {
-            errorDiv = driver.findElement(By.id("divErrorAdult0"));
-            String style = errorDiv.getAttribute("style");
-            return style != null && !style.contains("display: none");
+            errorDiv = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("divErrorAdult0")));
+            return errorDiv.isDisplayed();
         } catch (Exception e) {
             return false;
         }
@@ -144,7 +143,7 @@ public class TravellerDetailPage {
     }
     public boolean verifyAndPayButtonIsVisible() {
         try {
-            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'Verify & Pay')]")));
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Verify & Pay')]")));
             return element.isDisplayed();
         } catch (Exception e) {
             return false;

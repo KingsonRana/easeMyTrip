@@ -15,8 +15,13 @@ public class LoginAndSearchFlightTest extends BaseTest
         page = new DashboardPage( getDriver(),getWait());
     }
     @Test(description = "Log in to you Account",dataProvider = "userCredentials", dataProviderClass = DataProvider.class)
-    public void login(String countryCode, String phoneNumber,String email){
+    public void login(String countryCode, String phoneNumber,String email) throws InterruptedException {
         System.out.println("Country code is " + countryCode + " Phone number is " + phoneNumber);
+        page.clickSignInPanel();
+        page.clickCustomerLogin();
+        page.enterPhoneNumber(phoneNumber);
+        Assert.assertTrue(page.isProfileBoxVisible(),"Profile box should be visible");
+        page.declineGoingToProfile();
     }
     @Test(description = "Search for Flight and verify the page url ", dependsOnMethods = "login", dataProvider = "sourceAndDestination" , dataProviderClass = DataProvider.class)
     public void searchFlightAnVerifyTheURl(String source, String destination, String date) {
@@ -44,6 +49,8 @@ public class LoginAndSearchFlightTest extends BaseTest
     public void verifyCheapestFlightValid() {
         int expectedCheapestFlight = page.getExpectedCheapestPrice();
         int actualCheapestPrice = page.getActualCheapestPrice();
+        System.out.println("Expected cheaptest price is " + expectedCheapestFlight);
+        System.out.println("Actual cheapest price is " + actualCheapestPrice) ;
         Assert.assertTrue(expectedCheapestFlight > 0, "Expected cheapest price is 0 — possible failure in fetching expected fare.");
         Assert.assertTrue(actualCheapestPrice > 0, "Actual cheapest price is 0 — possible failure in scraping actual fares.");
         Assert.assertTrue(actualCheapestPrice <= expectedCheapestFlight,

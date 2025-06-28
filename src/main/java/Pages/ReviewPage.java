@@ -28,8 +28,6 @@ public class ReviewPage {
     }
     public int getGrandTotal() {
         try {
-            WebElement DiscountDiv = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(@id,'divFareSummary')]//div[contains(.,'Discount')]")));
             grandTotal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("spnGrndTotal")));
             return Integer.parseInt(grandTotal.getText().trim().replace(",", ""));
         } catch (Exception e) {

@@ -44,7 +44,7 @@ public class BaseTest {
         );
         driver.get("https://www.easemytrip.com");
         CommonMethods.waitUntilPageIsFullyLoaded(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(25));
     }
 
     public void addBrowserOptions(){
