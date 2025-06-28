@@ -11,7 +11,7 @@ public class DataProvider {
     @org.testng.annotations.DataProvider(name = "userCredentials")
     public Object[][] getUserAccountCredentials(){
        return new Object[][]{
-               {"91","8709560736","Kingsonr5@gmail.com"}
+               {"91","9939433736","abc@gmail.com"}
        };
     }
     @org.testng.annotations.DataProvider(name="sourceAndDestination")
