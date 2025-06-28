@@ -1,3 +1,5 @@
+package tests;
+
 import Base.BaseTest;
 import DataProviders.DataProvider;
 import Pages.ReviewPage;

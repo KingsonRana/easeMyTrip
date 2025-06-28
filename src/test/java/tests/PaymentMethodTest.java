@@ -1,6 +1,7 @@
+package tests;
+
 import Base.BaseTest;
 import Pages.PaymentMethodPage;
-import Pages.ReviewPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
