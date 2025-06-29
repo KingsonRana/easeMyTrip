@@ -47,7 +47,7 @@ public class BaseTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(25));
     }
 
-    public void addBrowserOptions(){
+    private void addBrowserOptions(){
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2); // 2 = Block
         options.setExperimentalOption("prefs", prefs);

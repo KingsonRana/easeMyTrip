@@ -106,10 +106,8 @@ public class TravellerDetailsTest extends BaseTest {
         page.moveToElement(page.travllerXpath);
         boolean isEmailVisible = page.verifyUserEmailAddress(getEmailId());
         Assert.assertTrue(isEmailVisible, "Email id is not visible");
-
         boolean isContactVisible = page.verifyUserContact(getPhoneNumber());
         Assert.assertTrue(isContactVisible, "Contact is not visible");
-
         String fullName = getSalutation() + " " + getFirstName() + " " + getLastName();
         boolean isFullNameVisible = page.verifyUserFullName(fullName);
         Assert.assertTrue(isFullNameVisible, "Full name not visible");

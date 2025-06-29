@@ -34,16 +34,18 @@ public class DashboardPage {
     WebElement profileBox;
     WebElement profileBoxMayBeLaterButton;
 
-    public DashboardPage(WebDriver driver, WebDriverWait wait){
+    public DashboardPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         actions = new Actions(this.driver);
     }
-    public void clickSignInPanel(){
+
+    public void clickSignInPanel() {
         signInPanel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("divSignInPnl")));
         replicateHumaneMouseMovement(signInPanel);
     }
-    public void clickCustomerLogin(){
+
+    public void clickCustomerLogin() {
         customerLogIn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("shwlogn")));
         replicateHumaneMouseMovement(customerLogIn);
     }
@@ -59,15 +61,16 @@ public class DashboardPage {
         }
     }
 
-    public boolean isProfileBoxVisible(){
+    public boolean isProfileBoxVisible() {
         try {
             profileBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ProfileBox")));
             return profileBox.isDisplayed();
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    public void declineGoingToProfile(){
+
+    public void declineGoingToProfile() {
         profileBoxMayBeLaterButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'maybe-later')]")));
         replicateHumaneMouseMovement(profileBoxMayBeLaterButton);
     }
@@ -77,11 +80,9 @@ public class DashboardPage {
         try {
             WebElement fromDiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("frmcity")));
             replicateHumaneMouseMovement(fromDiv);
-
             fromTextBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("a_FromSector_show")));
             replicateHumaneMouseMovement(fromTextBox);
             fromTextBox.sendKeys(source);
-
             WebElement dropDown = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//li[contains(.,'" + source + "')]")));
             replicateHumaneMouseMovement(dropDown);
@@ -96,7 +97,6 @@ public class DashboardPage {
             toTextBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("a_Editbox13_show")));
             replicateHumaneMouseMovement(toTextBox);
             toTextBox.sendKeys(destination);
-
             WebElement dropDown = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//li[contains(.,'" + destination + "')]")));
             replicateHumaneMouseMovement(dropDown);
@@ -169,14 +169,12 @@ public class DashboardPage {
             String xpath = "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
             int cheapest = Integer.MAX_VALUE;
-
             for (WebElement prices : priceList) {
                 int fPrice = parsePrice(prices.getText());
                 if (fPrice < cheapest) {
                     cheapest = fPrice;
                 }
             }
-
             return cheapest == Integer.MAX_VALUE ? 0 : cheapest;
         } catch (Exception e) {
             System.out.println("Failed to get actual cheapest price: " + e.getMessage());
@@ -189,7 +187,6 @@ public class DashboardPage {
             String xpath = buildFlightXPath() + "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
             int cheapest = Integer.MAX_VALUE;
-
             for (WebElement prices : priceList) {
                 String priceText = prices.getText().trim();
                 int fPrice = parsePrice(priceText);
@@ -198,7 +195,6 @@ public class DashboardPage {
                     cheapestFlightPrice = priceText;
                 }
             }
-
             return cheapest == Integer.MAX_VALUE ? 0 : cheapest;
         } catch (Exception e) {
             System.out.println("Failed to get cheapest exact match flight: " + e.getMessage());
@@ -215,10 +211,11 @@ public class DashboardPage {
             System.out.println("Failed to click 'Book Now' button: " + e.getMessage());
         }
     }
-    public String getPageUrl(){
-        try{
+
+    public String getPageUrl() {
+        try {
             return driver.getCurrentUrl();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error getting the page url");
             return " ";
         }
@@ -240,19 +237,15 @@ public class DashboardPage {
             sortByButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//div[contains(@class,'_regflx') and contains(.,'Other Sort')]")));
             replicateHumaneMouseMovement(sortByButton);
-
             sortByHighestButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("QUC_HIGHESTPRICE")));
             replicateHumaneMouseMovement(sortByHighestButton);
-
             String xpath = "//div[contains(@class,'exPrc')]//span[contains(@id,'spnPrice')]";
             List<WebElement> priceList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
-
             List<Integer> priceListInteger = new ArrayList<>();
             for (WebElement prices : priceList) {
                 int fPrice = parsePrice(prices.getText());
                 priceListInteger.add(fPrice);
             }
-
             return CommonMethods.isSortedByHighest(priceListInteger);
         } catch (Exception e) {
             System.out.println("Failed to sort flights by highest price: " + e.getMessage());
@@ -260,7 +253,7 @@ public class DashboardPage {
         }
     }
 
-    private void replicateHumaneMouseMovement(WebElement element){
+    private void replicateHumaneMouseMovement(WebElement element) {
         actions.moveToElement(element).pause(Duration.ofMillis(200)).click().perform();
         CommonMethods.waitUntilPageIsFullyLoaded(driver);
     }
@@ -276,6 +269,7 @@ public class DashboardPage {
         return String.format("//div[contains(@class,'fltResult') and contains(.,'%s') and contains(.,'%s')]",
                 selectedSource, selectedDestination);
     }
+
     private int parsePrice(String priceText) {
         return Integer.parseInt(priceText.replaceAll("[^0-9]", ""));
     }

@@ -52,8 +52,6 @@ public class LoginAndSearchFlightTest extends BaseTest
     public void validateCheapestFlightPrice() {
         int expectedCheapestFlight = page.getExpectedCheapestPrice();
         int actualCheapestPrice = page.getActualCheapestPrice();
-        System.out.println("Expected cheapest price is " + expectedCheapestFlight);
-        System.out.println("Actual cheapest price is " + actualCheapestPrice);
         Assert.assertTrue(expectedCheapestFlight > 0, "Expected cheapest price is 0 — possible failure in fetching expected fare.");
         Assert.assertTrue(actualCheapestPrice > 0, "Actual cheapest price is 0 — possible failure in scraping actual fares.");
         Assert.assertTrue(actualCheapestPrice <= expectedCheapestFlight,

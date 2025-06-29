@@ -55,6 +55,6 @@ public class PaymentMethodTest extends BaseTest {
     public void logout(){
      page.moveToElement(page.logOutPanelXpath);
      page.clickElement(page.logOutPanelXpath);
-     page.clickElement(page.logOutPanelXpath);
+     page.clickElement(page.logOutButtonXpath);
    }
 }
