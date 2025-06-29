@@ -59,7 +59,7 @@ To run the automation suite, you need an active [EaseMyTrip](https://www.easemyt
 ```java
 public Object[][] getUserAccountCredentials(){
    return new Object[][]{
-       {"91", "8709560736", "Kingsonr5@gmail.com"}
+       {"91", "9836567654", "Dummy@gmail.com"}
    };
 }
 ```
